@@ -8,7 +8,7 @@ The simplest usage is:
 
     $('selector').textCounter();
 
-More complex examples can be found at <a href="http://garystorey.com/textCounter/">GaryStorey.com</a>.
+More complex examples can be found at <a href="http://garystorey.com/textcounter/">GaryStorey.com</a>.
 
 
 Options and the Default Values
