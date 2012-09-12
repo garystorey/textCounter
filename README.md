@@ -53,7 +53,7 @@ from "_slideToggle_" to "_none_" for all textCounters and changed the default *z
 Miscellaneous
 --------------------------------
 -	Tested with jQuery 1.7.1.
--	Compatible with IE 7/8/9 Firefox 11+, Opera 11.61+, and Chrome 17+.
+-	Compatible with IE 7+, Firefox 11+, Opera 11.61+, and Chrome 17+.
 
 Feel free to <a href="mailto:gary@garystorey.com">email me</a> if you have any questions.
 
