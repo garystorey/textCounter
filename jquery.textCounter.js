@@ -66,10 +66,10 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                 $el = self.$elem,
                 $o = self.$obj;
             
-            self.$elem.on( "blur focus keup keydown paste input" ,  function( ev ) { 
+            self.$elem.on( "blur focus focusin focusout keyup keydown paste input" ,  function( ev ) { 
                     
                 switch(ev) {
-                    case "blur":
+                    case "blur": case "focusout":
                         $el.removeClass( ops.txtWarningClass );
                         $o.removeClass( ops.counterWarningClass );
     
@@ -82,7 +82,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                         }
                         break;
                         
-                    case "focus":
+                    case "focus": case "focusin":
                         $o.removeClass( ops.counterWarningClass );
                         $el.removeClass( ops.txtWarningClass );
                         self._checkChars( );
