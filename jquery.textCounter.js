@@ -15,41 +15,43 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                 self.elem = elem;
                 self.$elem = $( elem );
                 self.options = $.extend( { } , $.fn.textCounter.options , options );
+                
+            var ops = self.options;
             
             thisID += ( ! self.$elem.attr("id") ) ? self.$elem.attr("name") : self.$elem.attr("id");
             
             //Verify that the text counter object exists.  Add it to the DOM if it doesn't.
             
             if ( $( thisID ).length ) {
-				self.$obj = $("<div></div>" , { "id" : thisID ,"class" : self.options.defaultClass } ).appendTo( "body" ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ); 
+				self.$obj = $("<div></div>" , { "id" : thisID ,"class" : ops.defaultClass } ).appendTo( "body" ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ); 
 			} else {
-				self.$obj = $( "#"+ thisID ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ).addClass( self.options.defaultClass );
+				self.$obj = $( "#"+ thisID ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ).addClass( ops.defaultClass );
 			}
             
-            $("<div></div>", { "class" : self.options.counterPatternClass }).css({ "z-index" : self.options.zIndex, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%", "width" : "100%" }).appendTo( self.$obj );
+            $("<div></div>", { "class" : ops.counterPatternClass }).css({ "z-index" : ops.zIndex, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%", "width" : "100%" }).appendTo( self.$obj );
             
             if ( self.options.showProgressBar ) { 
-                $("<span></span>", { "class" : self.options.progressBarClass }).css({ "z-index" : self.options.zIndex -1, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%" }).appendTo( self.$obj );
+                $("<span></span>", { "class" : ops.progressBarClass }).css({ "z-index" : ops.zIndex -1, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%" }).appendTo( self.$obj );
             }
             
             
             // Easier to check values if they are lower case
-            if ( typeof self.options.posX === "string" ) { self.options.posX = self.options.posX.toLowerCase( ); }
-            if ( typeof self.options.posY === "string" ) { self.options.posY = self.options.posY.toLowerCase( ); }
+            if ( typeof ops.posX === "string" ) { ops.posX =ops.posX.toLowerCase( ); }
+            if ( typeof ops.posY === "string" ) { ops.posY = ops.posY.toLowerCase( ); }
             
             // If countDown is a string, anything besides "false" or false is true
-            if ( typeof self.options.countDown === "string" ) { self.options.countDown =( self.options.countDown.toLowerCase() === "false" ) ? false : true; }
+            if ( typeof ops.countDown === "string" ) { ops.countDown =( ops.countDown.toLowerCase() === "false" ) ? false : true; }
 
             // If showBeforeWarn is a string, anything besides "false" or false is true
-            if ( typeof self.options.showBeforeWarn === "string" ) { self.options.showBeforeWarn = ( self.options.showBeforeWarn.toLowerCase() === "false" ) ? false : true; }
+            if ( typeof ops.showBeforeWarn === "string" ) { ops.showBeforeWarn = ( ops.showBeforeWarn.toLowerCase() === "false" ) ? false : true; }
             
             
             // Make sure there is a valid class values . If they are empty strings then checking ! value will return true.
-            if ( ! self.options.defaultClass) { self.options.defaultClass = "textCounter"; }
-            if ( ! self.options.txtWarningClass ) { self.options.txtWarningClass = "txtWarning"; }
-            if ( ! self.options.counterWarningClass ) { self.options.counterWarningClass = "counterWarning"; }
-            if ( ! self.options.counterPatternClass ) { self.options.counterPatternClass = "counterTextPattern"; }
-            if ( ! self.options.progressBarClass ) { self.options.progressBarClass = "counterProgressBar"; }
+            if ( ! ops.defaultClass) { ops.defaultClass = "textCounter"; }
+            if ( ! ops.txtWarningClass ) { ops.txtWarningClass = "txtWarning"; }
+            if ( ! ops.counterWarningClass ) { ops.counterWarningClass = "counterWarning"; }
+            if ( ! ops.counterPatternClass ) { ops.counterPatternClass = "counterTextPattern"; }
+            if ( ! ops.progressBarClass ) { ops.progressBarClass = "counterProgressBar"; }
             
             // call the Bindevents function
             self._bindEvents();
