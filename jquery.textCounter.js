@@ -68,7 +68,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             
             self.$elem.on( "blur focus focusin focusout keyup keydown paste input" ,  function( ev ) { 
                     
-                switch(ev) {
+                switch(ev.type) {
                     case "blur": case "focusout":
                         $el.removeClass( ops.txtWarningClass );
                         $o.removeClass( ops.counterWarningClass );
