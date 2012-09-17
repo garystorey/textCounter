@@ -16,9 +16,9 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             self.$elem = $( elem );
             self.options = $.extend( { } , $.fn.textCounter.options , options );
             
-    		var ops=self.options;
+            var ops=self.options;
 			
-    		thisID += ( self.$elem.attr("id") === undefined ) ? self.$elem.attr("name") : self.$elem.attr("id");
+			thisID += ( ! self.$elem.attr("id")) ? self.$elem.attr("name") : self.$elem.attr("id");
             
             //Verify that the text counter object exists.  Add it to the DOM if it doesn't.
             
@@ -68,8 +68,8 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             self.$elem.on("focusin focusout keyup keydown input paste",function(ev) {
 				switch(ev.type) {
 					case "focusout":
-	                    $el.removeClass( self.options.txtWarningClass );
-						$o.removeClass( self.options.counterWarningClass );
+                        $el.removeClass( ops.txtWarningClass );
+						$o.removeClass( ops.counterWarningClass );
 						if ( ops.showBeforeWarn ) {
 							if ( trans === "none" || !trans ) { 
 								$o.hide( 0 ); 
@@ -79,8 +79,8 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 						}
 						break;
 					case "focusin":
-						$o.removeClass( self.options.counterWarningClass );
-						$el.removeClass( self.options.txtWarningClass );
+						$o.removeClass( ops.counterWarningClass );
+						$el.removeClass( ops.txtWarningClass );
 						self._checkChars( );
 						self._setXY( );
 						if ( ops.showBeforeWarn ) {
