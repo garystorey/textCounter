@@ -10,30 +10,29 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
   var Counter = {
         init: function( options , elem ) {    
         
-            var self = this,
-                thisID = "#textCounter_";
-                self.elem = elem;
-                self.$elem = $( elem );
-                self.options = $.extend( { } , $.fn.textCounter.options , options );
-                
-            var ops = self.options;
+            var     self = this,
+                    thisID = "#textCounter_";
+            self.elem = elem;
+            self.$elem = $( elem );
+            self.options = $.extend( { } , $.fn.textCounter.options , options );
             
-            thisID += ( ! self.$elem.attr("id") ) ? self.$elem.attr("name") : self.$elem.attr("id");
+    		var ops=self.options;
+			
+    		thisID += ( self.$elem.attr("id") === undefined ) ? self.$elem.attr("name") : self.$elem.attr("id");
             
             //Verify that the text counter object exists.  Add it to the DOM if it doesn't.
             
-            if ( $( thisID ).length ) {
+            if ( $( thisID ).length === 0 ) {
 				self.$obj = $("<div></div>" , { "id" : thisID ,"class" : ops.defaultClass } ).appendTo( "body" ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ); 
 			} else {
-				self.$obj = $( thisID ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ).addClass( ops.defaultClass );
+				self.$obj = $( "#"+ thisID ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ).addClass( ops.defaultClass );
 			}
             
             $("<div></div>", { "class" : ops.counterPatternClass }).css({ "z-index" : ops.zIndex, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%", "width" : "100%" }).appendTo( self.$obj );
             
-            if ( self.options.showProgressBar ) { 
+            if ( self.options.showProgressBar === true ) { 
                 $("<span></span>", { "class" : ops.progressBarClass }).css({ "z-index" : ops.zIndex -1, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%" }).appendTo( self.$obj );
             }
-            
             
             // Easier to check values if they are lower case
             if ( typeof ops.posX === "string" ) { ops.posX =ops.posX.toLowerCase( ); }
@@ -46,8 +45,8 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             if ( typeof ops.showBeforeWarn === "string" ) { ops.showBeforeWarn = ( ops.showBeforeWarn.toLowerCase() === "false" ) ? false : true; }
             
             
-            // Make sure there is a valid class values . If they are empty strings then checking ! value will return true.
-            if ( ! ops.defaultClass) { ops.defaultClass = "textCounter"; }
+            // Make sure there is a valid class values
+            if ( ! ops.defaultClass ) { ops.defaultClass = "textCounter"; }
             if ( ! ops.txtWarningClass ) { ops.txtWarningClass = "txtWarning"; }
             if ( ! ops.counterWarningClass ) { ops.counterWarningClass = "counterWarning"; }
             if ( ! ops.counterPatternClass ) { ops.counterPatternClass = "counterTextPattern"; }
@@ -60,53 +59,48 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
         
         _bindEvents: function( ) {
         
-            var self = this,
+            var     self = this,
                 ops = self.options,
                 trans = ops.transition,
                 $el = self.$elem,
                 $o = self.$obj;
             
-            self.$elem.on( "blur focus focusin focusout keyup keydown paste input" ,  function( ev ) { 
-                    
-                switch(ev.type) {
-                    case "blur": case "focusout":
-                        $el.removeClass( ops.txtWarningClass );
-                        $o.removeClass( ops.counterWarningClass );
-    
-                        if ( ops.showBeforeWarn ) {
-                            if ( trans === "none" || !trans ) { 
-                                $o.hide( 0 ); 
-                            } else { 
-                                $o[ trans ]( ops.transitionSpeed , ops.easing ); 
-                            }
-                        }
-                        break;
-                        
-                    case "focus": case "focusin":
-                        $o.removeClass( ops.counterWarningClass );
-                        $el.removeClass( ops.txtWarningClass );
-                        self._checkChars( );
-                        self._setXY( );
-                        if ( ops.showBeforeWarn ) {
-                            if ( trans === "none" || !trans ) {
-                                $o.show( 0 ); 
-                            } else { 
-                                $o[ trans ]( ops.transitionSpeed , ops.easing );
-                            }
-                        }
-                        break;
-                        
-                    default:
-                        self._checkChars( );
-                }
-                    
-            });
+            self.$elem.on("focusin focusout keyup keydown input paste",function(ev) {
+				switch(ev.type) {
+					case "focusout":
+	                    $el.removeClass( self.options.txtWarningClass );
+						$o.removeClass( self.options.counterWarningClass );
+						if ( ops.showBeforeWarn ) {
+							if ( trans === "none" || !trans ) { 
+								$o.hide( 0 ); 
+							} else { 
+								$o[ trans ]( ops.transitionSpeed , ops.easing ); 
+							}
+						}
+						break;
+					case "focusin":
+						$o.removeClass( self.options.counterWarningClass );
+						$el.removeClass( self.options.txtWarningClass );
+						self._checkChars( );
+						self._setXY( );
+						if ( ops.showBeforeWarn ) {
+							if ( trans === "none" || !trans ) {
+								$o.show( 0 ); 
+							} else { 
+								$o[ trans ]( ops.transitionSpeed , ops.easing );
+							}
+						}
+						break;
+					default:
+						self._checkChars( );
+				}
+			});
         },
 
         _setXY: function( ) {
         
-            var self = this,
-                x = 0, 
+            var     self = this,
+                                x = 0, 
                 y = 0,
                 posX = self.options.posX,
                 posY = self.options.posY,
@@ -130,42 +124,42 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             }
                 
             switch ( posY ) {     // Set Y-axis coordinate
-                case "top" :    // Set to the top of object
-                    y = $el.offset( ).top - $o.height( )-8;
-                    break;        
-                case "center" :    // Set to the center of object
-                    y = $el.offset( ).top + ( $el.height( ) / 2 ) - ( $o.height( ) / 2 );
-                    break;
-                case "bottom" :    // Set to the bottom of object
-                    y = $el.offset( ).top + $el.height( ) + 9;
-                    break;
-                default:     // Set to the given number
-                    y = parseInt( posY,10 );
+                    case "top" :    // Set to the top of object
+                        y = $el.offset( ).top - $o.height( )-8;
+                        break;        
+                    case "center" :    // Set to the center of object
+                        y = $el.offset( ).top + ( $el.height( ) / 2 ) - ( $o.height( ) / 2 );
+                        break;
+                    case "bottom" :    // Set to the bottom of object
+                        y = $el.offset( ).top + $el.height( ) + 9;
+                        break;
+                    default:     // Set to the given number
+                        y = parseInt( posY,10 );
             } 
 
             // Because these combinations will overlap the ends of the textbox 
             // we will move to right outside of it
             if ( posX === "left" && posY === "center" ) { x -= ( $o.width( ) +13 ); }
-            if ( posX === "right" && posY === "center" ) { x += ( $o.width( ) +12 ); }
+            if ( posX === "right" && posY === "center" ) { x+= ( $o.width( ) +12 ); }
 
-            if ( typeof posXo === "number" ) { x += parseInt( posXo,10 ); }
-            if ( typeof posYo === "number" ) { y += parseInt( posYo,10 ); }
+            if ( typeof posXo === "number" )     { x += parseInt( posXo,10 ); }
+            if ( typeof posYo === "number" )     { y += parseInt( posYo,10 ); }
             
             //Set the coordinates
             $o.css( { top: y, left: x } );
 
         },
         _checkChars: function( ) {
-            var self = this,
-                $el = self.$elem,
-                ops = self.options,
-                cd = ops.countDown,
-                max = $el.attr("maxlength"),
-                count = 0,
-                tmp = "",
-                pass = true;
+            var   self = this,
+                    $el = self.$elem,
+					ops = self.options,
+					cd = ops.countDown,
+					max = $el.attr("maxlength"),
+					count = 0,
+					tmp = "",
+					pass = true;
                     
-            if ( ! typeof max  ) {  max = ops.maxLength; } // max is undefined so define it
+            if (  ! typeof max ) {  max = ops.maxLength; } 
             count = ( cd ) ?  parseInt ( Math.round( max - ( $el.val( ).length ) ) , 10 ) :  parseInt ( Math.round( $el.val( ).length , 10 ),10 ); // countdown = false
                         
             if ( count > max || count < 0 ) { // Force maxlength for browsers that do not support maxlength
@@ -180,11 +174,11 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
         },
         
         _buildString : function( count , max, cd ) {
-            var self = this,
-                ops = self.options,
-                txt = ops.textPattern,
-                percent = 0,
-                pass = true;
+            var   self = this,
+                    ops = self.options,
+					txt = ops.textPattern,
+					percent = 0,
+					pass = true;
 
                 percent = ( cd ) ?  Math.round( ( (max - count) / max ) * 100 ) : Math.round( ( count / max ) * 100 );
                     
@@ -208,20 +202,21 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 
                 $("." + ops.counterPatternClass ).html( txt );
             
-                if ( ops.showProgressBar ) { $("."+ ops.progressBarClass ).animate( { "width" : percent + "%" } , 1 ); }
-                    
+                if ( ops.showProgressBar ) {
+                    $("."+ ops.progressBarClass ).animate( { "width" : percent + "%" } , 1 );
+                }
                 return pass;    
         },
         
         _setClassAndShow : function( pass ) {
-            var self = this,
-                ops = self.options,
-                $el = self.$elem,
-                $o = self.$obj,
-                trans = ops.transition;        
+            var   self = this,
+					ops = self.options,
+					$el = self.$elem,
+					$o = self.$obj,
+					trans = ops.transition;        
 
             if ($el.hasClass( ops.txtWarningClass ) ) {
-                if ( pass ) { $el.removeClass( ops.txtWarningClass ); }
+                if ( pass ) {  $el.removeClass( ops.txtWarningClass ); }
             } else {
                 if ( !pass ) { $el.addClass( ops.txtWarningClass ); }
             }
@@ -238,7 +233,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                 }
             }
             
-            if ( ! ops.showBeforeWarn && $o.hasClass( ops.counterWarningClass ) && $o.is( ":hidden" ) ) {
+            if (  !ops.showBeforeWarn && $o.hasClass( ops.counterWarningClass ) && $o.is( ":hidden" ) ) {
                 if ( trans === "none" || !trans ) {
 					$o.show( 0 );
 				} else {
@@ -246,7 +241,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 				}
             }        
 
-            if ( ! ops.showBeforeWarn && ! $o.hasClass( ops.counterWarningClass ) && $o.is( ":visible" ) ) {
+            if ( ! ops.showBeforeWarn  &&  ! $o.hasClass( ops.counterWarningClass ) && $o.is( ":visible" ) ) {
                 if ( trans === "none" || !trans ) {
 					$o.hide( 0 ); 
 				} else {
@@ -258,39 +253,33 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
     };  // End Counter object
 
     $.fn.textCounter = function( options ) {
-    
         return this.each( function( ) {
-    
             var counter = Object.create( Counter );
             counter.init( options , this);
             $.data( this , "textCounter" , counter );            
-        
         });
-    
     };
     
     $.fn.textCounter.options = {
-    
-          countDown             : true ,
-          counterPatternClass   : "counterTextPattern" ,
-          counterWarningClass   : "counterWarning" ,
-          defaultClass          : "textCounter" ,
-          easing                : "swing" ,
-          maxLength             : 500,
-          posX                  : "right" ,
-          posY                  : "bottom" ,
-          posXoffset            : 0 ,
-          posYoffset            : 0 ,
-          progressBarClass      : "counterProgressBar" ,
-          showBeforeWarn        : true ,
-          showProgressBar       : false , 
-          textPattern           : "[+] / [=]" ,
-          transition            : "slideToggle" ,
-          transitionSpeed       : 200 ,
-          txtWarningClass       : "txtWarning" ,
-          warnAt                : 10 ,
-          zIndex                : 100 
+          countDown					: true ,
+          counterPatternClass		: "counterTextPattern" ,
+          counterWarningClass	: "counterWarning" ,
+          defaultClass					: "textCounter" ,
+          easing							: "swing" ,
+          maxLength					: 500,
+          posX								: "right" ,
+          posY								: "bottom" ,
+          posXoffset						: 0 ,
+          posYoffset						: 0 ,
+          progressBarClass			: "counterProgressBar" ,
+          showBeforeWarn			: true ,
+          showProgressBar			: false , 
+          textPattern					: "[+] / [=]" ,
+          transition						: "slideToggle" ,
+          transitionSpeed				: 200 ,
+          txtWarningClass			: "txtWarning" ,
+          warnAt							: 10 ,
+          zIndex							: 100 
     };
-
 
 })( jQuery, window , document );  // End Plugin
