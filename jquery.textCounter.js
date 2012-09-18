@@ -17,20 +17,16 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             self.options = $.extend( { } , $.fn.textCounter.options , options );
             
             var ops=self.options;
-			
+    		
 			thisID += ( ! self.$elem.attr("id")) ? self.$elem.attr("name") : self.$elem.attr("id");
             
             //Verify that the text counter object exists.  Add it to the DOM if it doesn't.
             
-            if ( $( thisID ).length === 0 ) {
-				self.$obj = $("<div></div>" , { "id" : thisID ,"class" : ops.defaultClass } ).appendTo( "body" ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ); 
-			} else {
-				self.$obj = $( "#"+ thisID ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ).addClass( ops.defaultClass );
-			}
+            self.$obj = ( $( thisID ).length ) ? $( "#"+ thisID ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } ).addClass( ops.defaultClass ) : $("<div></div>" , { "id" : thisID ,"class" : ops.defaultClass } ).appendTo( "body" ).css( { display: "none" , position : "absolute" , top: 0 , left: 0 } );
             
             $("<div></div>", { "class" : ops.counterPatternClass }).css({ "z-index" : ops.zIndex, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%", "width" : "100%" }).appendTo( self.$obj );
             
-            if ( self.options.showProgressBar === true ) { 
+            if ( ops.showProgressBar) { 
                 $("<span></span>", { "class" : ops.progressBarClass }).css({ "z-index" : ops.zIndex -1, "position" : "absolute" , "top": 0 , "left" : 0, "height" : "100%" }).appendTo( self.$obj );
             }
             
@@ -38,19 +34,20 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             if ( typeof ops.posX === "string" ) { ops.posX =ops.posX.toLowerCase( ); }
             if ( typeof ops.posY === "string" ) { ops.posY = ops.posY.toLowerCase( ); }
             
-            // If countDown is a string, anything besides "false" or false is true
-            if ( typeof ops.countDown === "string" ) { ops.countDown =( ops.countDown.toLowerCase() === "false" ) ? false : true; }
+            // If countDown is a string, anything besides "false" or falsey values are true
+			ops.countDown = self._convertToBoolean( ops.countDown );
 
-            // If showBeforeWarn is a string, anything besides "false" or false is true
-            if ( typeof ops.showBeforeWarn === "string" ) { ops.showBeforeWarn = ( ops.showBeforeWarn.toLowerCase() === "false" ) ? false : true; }
+            // If showBeforeWarn is a string, anything besides "false" or falsey values are true
+			ops.showBeforeWarn =  self._convertToBoolean( ops.showBeforeWarn );
             
             
             // Make sure there is a valid class values
-            if ( ! ops.defaultClass ) { ops.defaultClass = "textCounter"; }
-            if ( ! ops.txtWarningClass ) { ops.txtWarningClass = "txtWarning"; }
-            if ( ! ops.counterWarningClass ) { ops.counterWarningClass = "counterWarning"; }
-            if ( ! ops.counterPatternClass ) { ops.counterPatternClass = "counterTextPattern"; }
-            if ( ! ops.progressBarClass ) { ops.progressBarClass = "counterProgressBar"; }
+			// Empty string is false so if the option value is an empty string then set it.
+            ops.defaultClass= ops.defaultClass || "textCounter"; 
+            ops.txtWarningClass= ops.txtWarningClass || "txtWarning";
+            ops.counterWarningClass = ops.counterWarningClass || "counterWarning";
+            ops.counterPatternClass = ops.counterPatternClass || "counterTextPattern"; 
+            ops.progressBarClass = ops.progressBarClass || "counterProgressBar";
             
             // call the Bindevents function
             self._bindEvents();
@@ -131,7 +128,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                         y = $el.offset( ).top + ( $el.height( ) / 2 ) - ( $o.height( ) / 2 );
                         break;
                     case "bottom" :    // Set to the bottom of object
-                        y = $el.offset( ).top + $el.height( ) + 9;
+                        y = $el.offset( ).top + $el.height( ) + 11;
                         break;
                     default:     // Set to the given number
                         y = parseInt( posY,10 );
@@ -249,7 +246,12 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 				}
             }        
             
-        }
+        },
+
+		_convertToBoolean: function (val) {
+			if ( typeof val === "string" ) { val.toLowerCase(); }
+			return ( val === "false" ) ? true : Boolean( val );
+		}
     };  // End Counter object
 
     $.fn.textCounter = function( options ) {
