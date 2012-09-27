@@ -1,55 +1,42 @@
 
 .textCounter {
-	width : 80px; 
-	height : 20px;
-	padding : 3px 5px; 
-	margin: 0; 
-	position : absolute; 
-	top : 0; 
-	left : 0;  
-	z-index : 99;
-
+	width : 80px; height : 20px;
+	padding : 3px 5px; margin: 0; 
+	position : absolute; top : 0; left : 0;
 	opacity:.85;
 	text-align : center;
-
-    border-width:1px;
-    border-style:solid;
+    border:1px solid;
     border-bottom-color:#aaa;
     border-right-color:#aaa;
     border-left-color:#ddd;
 	border-top:none;
-
-	background: #fefefe; /* Old browsers */
+	background-color: #fefefe;
 	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10+,Safari5.1+ */
 	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* IE10+ */
 	background: linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C */
-
 	-webkit-box-shadow: 0px 2px 2px 0px rgba(5, 5, 5, .2);
 	-moz-box-shadow: 0px 2px 2px 0px rgba(5, 5, 5, .2);
 	box-shadow: 0px 2px 2px 0px rgba(5, 5, 5, .2);
 	overflow: hidden;
 }
 
-
 .counterWarning {  
-	color : #fff; 
-	background-color: #fbb; /* Old browsers */
+	color : #fff; background-color: #fbb;
 	background: -moz-linear-gradient(top,  #febbbb 0%, #fe9090 45%, #ff5c5c 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#febbbb), color-stop(45%,#fe9090), color-stop(100%,#ff5c5c)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top,  #febbbb 0%,#fe9090 45%,#ff5c5c 100%); /* Chrome10+,Safari5.1+ */
 	background: -o-linear-gradient(top,  #febbbb 0%,#fe9090 45%,#ff5c5c 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  #febbbb 0%,#fe9090 45%,#ff5c5c 100%); /* IE10+ */
 	background: linear-gradient(top,  #febbbb 0%,#fe9090 45%,#ff5c5c 100%); /* W3C */
-	
 }
 
 .txtWarning { 
 	border:2px solid red;
-	color : #000; font-weight:bold;
-	background-color: #fdd; 
+	color : #000; background-color: #fdd; 
+    font-weight:bold;
 }
 
 .counterProgressBar { 
@@ -62,5 +49,7 @@
 	background: linear-gradient(top,  #febbbb 0%,#fe9090 45%,#ff5c5c 100%); /* W3C */
 
 }
-.counterTextPattern {width:100%; height:100%; z-index:99;text-align : center; 	color : #000; }
-
+.counterTextPattern {
+    width:100%; height:100%; 
+    color : #000; text-align : center;
+}
