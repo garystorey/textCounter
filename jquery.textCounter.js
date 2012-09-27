@@ -10,14 +10,14 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
   var Counter = {
         init: function( options , elem ) {    
         
-            var     self = this,
-                    thisID = "#textCounter_";
-            self.elem = elem;
-            self.$elem = $( elem );
-            self.options = $.extend( { } , $.fn.textCounter.options , options );
+            var self = this,
+                thisID = "#textCounter_";
+                self.elem = elem;
+                self.$elem = $( elem );
+                self.options = $.extend( { } , $.fn.textCounter.options , options );
             
             var ops=self.options;
-    		
+
 			thisID += ( ! self.$elem.attr("id")) ? self.$elem.attr("name") : self.$elem.attr("id");
             
             //Verify that the text counter object exists.  Add it to the DOM if it doesn't.
@@ -31,7 +31,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             }
             
             // Easier to check values if they are lower case
-            if ( typeof ops.posX === "string" ) { ops.posX =ops.posX.toLowerCase( ); }
+            if ( typeof ops.posX === "string" ) { ops.posX = ops.posX.toLowerCase( ); }
             if ( typeof ops.posY === "string" ) { ops.posY = ops.posY.toLowerCase( ); }
             
             // If countDown is a string, anything besides "false" or falsey values are true
@@ -43,8 +43,8 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             
             // Make sure there is a valid class values
 			// Empty string is false so if the option value is an empty string then set it.
-            ops.defaultClass= ops.defaultClass || "textCounter"; 
-            ops.txtWarningClass= ops.txtWarningClass || "txtWarning";
+            ops.defaultClass = ops.defaultClass || "textCounter"; 
+            ops.txtWarningClass = ops.txtWarningClass || "txtWarning";
             ops.counterWarningClass = ops.counterWarningClass || "counterWarning";
             ops.counterPatternClass = ops.counterPatternClass || "counterTextPattern"; 
             ops.progressBarClass = ops.progressBarClass || "counterProgressBar";
@@ -56,9 +56,8 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
         
         _bindEvents: function( ) {
         
-            var     self = this,
+            var self = this,
                 ops = self.options,
-                trans = ops.transition,
                 $el = self.$elem,
                 $o = self.$obj;
             
@@ -67,37 +66,53 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 					case "focusout":
                         $el.removeClass( ops.txtWarningClass );
 						$o.removeClass( ops.counterWarningClass );
-						if ( ops.showBeforeWarn ) {
-							if ( trans === "none" || !trans ) { 
-								$o.hide( 0 ); 
-							} else { 
-								$o[ trans ]( ops.transitionSpeed , ops.easing ); 
-							}
-						}
+                        self._doTransition( false );
 						break;
 					case "focusin":
 						$o.removeClass( ops.counterWarningClass );
 						$el.removeClass( ops.txtWarningClass );
 						self._checkChars( );
 						self._setXY( );
-						if ( ops.showBeforeWarn ) {
-							if ( trans === "none" || !trans ) {
-								$o.show( 0 ); 
-							} else { 
-								$o[ trans ]( ops.transitionSpeed , ops.easing );
-							}
-						}
+                        self._doTransition( true );
 						break;
 					default:
 						self._checkChars( );
 				}
 			});
         },
+        
+        _doTransition: function ( isShown ) {
+            var trans = this.options.transition,
+                speed = this.options.transitionSpeed,
+                show = this.options.showBeforeWarn,
+                ease = this.options.easing,
+                $o = this.$obj;
+            
+            if ( isShown ) { //show
+                if ( show ) {
+                    if ( trans === "none" || !trans ) {
+                        $o.show( 0 ); 
+                    } else { 
+                        $o[ trans ]( speed , ease );
+					}
+				}  
+            } else { //hide
+                if ( show ) {
+                    if ( trans === "none" || !trans ) {
+                        $o.hide( 0 ); 
+                    } else { 
+                        $o[ trans ]( speed , ease );
+                    }
+				}  
+            }
+              
+          
+        },
 
         _setXY: function( ) {
         
-            var     self = this,
-                                x = 0, 
+            var self = this,
+                x = 0, 
                 y = 0,
                 posX = self.options.posX,
                 posY = self.options.posY,
@@ -147,70 +162,61 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 
         },
         _checkChars: function( ) {
-            var   self = this,
-                    $el = self.$elem,
-					ops = self.options,
-					cd = ops.countDown,
-					max = $el.attr("maxlength"),
-					count = 0,
-					tmp = "",
-					pass = true;
+            var self = this,
+                $el = self.$elem,
+				ops = self.options,
+				cd = ops.countDown,
+				max = $el.attr("maxlength"),
+				count = 0;
                     
             if (  ! typeof max ) {  max = ops.maxLength; } 
-            count = ( cd ) ?  parseInt ( Math.round( max - ( $el.val( ).length ) ) , 10 ) :  parseInt ( Math.round( $el.val( ).length , 10 ),10 ); // countdown = false
+            count = ( cd ) ?  parseInt ( Math.round( max - ( $el.val( ).length ) ) , 10 ) :  parseInt ( Math.round( $el.val( ).length , 10 ),10 ); // countdown ? true : false
                         
             if ( count > max || count < 0 ) { // Force maxlength for browsers that do not support maxlength
-                tmp = $el.val( );
-                tmp = tmp.substring( 0 , max );
+                $el.val($el.val().substring(0,max));
                 count = ( cd ) ? count++ : count-- ;
-                $el.val( tmp );
             }
 
-            pass = self._buildString( count , max , cd );
-            self._setClassAndShow( pass );
+            self._setClassAndShow( self._buildString( count , max , cd ) );
         },
         
         _buildString : function( count , max, cd ) {
-            var   self = this,
-                    ops = self.options,
-					txt = ops.textPattern,
-					percent = 0,
-					pass = true;
+            var self = this,
+                ops = self.options,
+				txt = ops.textPattern,
+				percent = 0,
+				pass = true;
 
-                percent = ( cd ) ?  Math.round( ( (max - count) / max ) * 100 ) : Math.round( ( count / max ) * 100 );
+            percent = ( cd ) ?  Math.round( ( (max - count) / max ) * 100 ) : Math.round( ( count / max ) * 100 );
                     
-                if ( txt.indexOf( "[%]" ) > -1 )  {     //They are asking for percent
-                    if ( cd ) {
-                        pass = ( (percent) <= ( ops.warnAt ) ) ? false : true ;
-                    } else {
-                        pass = ( ( percent ) >= ( 100 - ops.warnAt ) ) ? false : true ;
-                    } 
-                } else { // not %, do by count
-                    if ( cd ) {  
-                        pass = ( count <= ops.warnAt ) ? false  : true ;
-                    } else {   
-                        pass = ( ( max - count ) <= ops.warnAt ) ? false  : true ;
-                    }    
-                }
-
-                txt = txt.replace( "[+]" , count );
-                txt = txt.replace( "[=]" , max );
-                txt = txt.replace( "[%]" , percent );
-
-                $("." + ops.counterPatternClass ).html( txt );
+            if ( txt.indexOf( "[%]" ) > -1 )  {     //They are asking for percent
+                if ( cd ) {
+                    pass = ( (percent) <= ( ops.warnAt ) ) ? false : true ;
+                } else {
+                    pass = ( ( percent ) >= ( 100 - ops.warnAt ) ) ? false : true ;
+                } 
+            } else { // not %, do by count
+                if ( cd ) {  
+                    pass = ( count <= ops.warnAt ) ? false  : true ;
+                } else {   
+                    pass = ( ( max - count ) <= ops.warnAt ) ? false  : true ;
+                }    
+            }
+            txt = txt.replace( "[+]" , count );
+            txt = txt.replace( "[=]" , max );
+            txt = txt.replace( "[%]" , percent );
+            $("." + ops.counterPatternClass ).html( txt );
             
-                if ( ops.showProgressBar ) {
-                    $("."+ ops.progressBarClass ).animate( { "width" : percent + "%" } , 1 );
-                }
-                return pass;    
+            if ( ops.showProgressBar ) {
+                $("."+ ops.progressBarClass ).animate( { "width" : percent + "%" } , 1 );
+            }
+            return pass;    
         },
         
         _setClassAndShow : function( pass ) {
-            var   self = this,
-					ops = self.options,
-					$el = self.$elem,
-					$o = self.$obj,
-					trans = ops.transition;        
+            var ops = this.options,
+				$el = this.$elem,
+				$o = this.$obj;        
 
             if ($el.hasClass( ops.txtWarningClass ) ) {
                 if ( pass ) {  $el.removeClass( ops.txtWarningClass ); }
@@ -230,27 +236,19 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                 }
             }
             
-            if (  !ops.showBeforeWarn && $o.hasClass( ops.counterWarningClass ) && $o.is( ":hidden" ) ) {
-                if ( trans === "none" || !trans ) {
-					$o.show( 0 );
-				} else {
-					$o[ trans ]( ops.transitionSpeed , ops.easing );
-				}
+            if ( ! ops.showBeforeWarn && $o.hasClass( ops.counterWarningClass ) && $o.is( ":hidden" ) ) {
+                this._doTransition( true );
             }        
 
             if ( ! ops.showBeforeWarn  &&  ! $o.hasClass( ops.counterWarningClass ) && $o.is( ":visible" ) ) {
-                if ( trans === "none" || !trans ) {
-					$o.hide( 0 ); 
-				} else {
-					$o[ trans ]( ops.transitionSpeed , ops.easing );
-				}
+                this._doTransition( false );
             }        
             
         },
 
 		_convertToBoolean: function (val) {
 			if ( typeof val === "string" ) { val.toLowerCase(); }
-			return ( val === "false" ) ? true : Boolean( val );
+			return ( val === "false" ) ? false : Boolean( val );
 		}
     };  // End Counter object
 
@@ -263,25 +261,25 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
     };
     
     $.fn.textCounter.options = {
-          countDown					: true ,
-          counterPatternClass		: "counterTextPattern" ,
+          countDown				: true ,
+          counterPatternClass	: "counterTextPattern" ,
           counterWarningClass	: "counterWarning" ,
-          defaultClass					: "textCounter" ,
-          easing							: "swing" ,
-          maxLength					: 500,
-          posX								: "right" ,
-          posY								: "bottom" ,
-          posXoffset						: 0 ,
-          posYoffset						: 0 ,
-          progressBarClass			: "counterProgressBar" ,
-          showBeforeWarn			: true ,
-          showProgressBar			: false , 
-          textPattern					: "[+] / [=]" ,
-          transition						: "slideToggle" ,
-          transitionSpeed				: 200 ,
-          txtWarningClass			: "txtWarning" ,
-          warnAt							: 10 ,
-          zIndex							: 100 
+          defaultClass			: "textCounter" ,
+          easing				: "swing" ,
+          maxLength				: 500,
+          posX					: "right" ,
+          posY					: "bottom" ,
+          posXoffset			: 0 ,
+          posYoffset			: 0 ,
+          progressBarClass		: "counterProgressBar" ,
+          showBeforeWarn		: true ,
+          showProgressBar		: false , 
+          textPattern			: "[+] / [=]" ,
+          transition			: "slideToggle" ,
+          transitionSpeed		: 200 ,
+          txtWarningClass		: "txtWarning" ,
+          warnAt				: 10 ,
+          zIndex				: 100 
     };
 
 })( jQuery, window , document );  // End Plugin
