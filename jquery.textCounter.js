@@ -90,7 +90,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             
             if (show) {
                 if ( trans === "none" || !trans ) {
-                    (isShown) ? $o.show( 0 ) : $o.hide( 0 ) ;
+                     if (isShown) { $o.show( 0 ); } else { $o.hide( 0 ); }
                 } else {
                    $o[ trans ]( speed , ease ); 
                 }
