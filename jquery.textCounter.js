@@ -81,7 +81,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 			});
         },
         
-        _doTransition: function ( isShown ) {
+        _doTransition: function ( showme ) {
             var trans = this.options.transition,
                 speed = this.options.transitionSpeed,
                 show = this.options.showBeforeWarn,
@@ -90,7 +90,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             
             if (show) {
                 if ( trans === "none" || !trans ) {
-                     if (isShown) { $o.show( 0 ); } else { $o.hide( 0 ); }
+                     if ( showme ) { $o.show( 0 ); } else { $o.hide( 0 ); }
                 } else {
                    $o[ trans ]( speed , ease ); 
                 }
