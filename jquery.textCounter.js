@@ -18,7 +18,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
             
             var ops=self.options;
 
-			thisID += ( ! self.$elem.attr("id")) ? self.$elem.attr("name") : self.$elem.attr("id");
+			thisID += ( ! self.id) ? self.$elem.attr("name") : self.id;
             
             //Verify that the text counter object exists.  Add it to the DOM if it doesn't.
             
@@ -88,38 +88,25 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                 ease = this.options.easing,
                 $o = this.$obj;
             
-            if ( isShown ) { //show
-                if ( show ) {
-                    if ( trans === "none" || !trans ) {
-                        $o.show( 0 ); 
-                    } else { 
-                        $o[ trans ]( speed , ease );
-					}
-				}  
-            } else { //hide
-                if ( show ) {
-                    if ( trans === "none" || !trans ) {
-                        $o.hide( 0 ); 
-                    } else { 
-                        $o[ trans ]( speed , ease );
-                    }
-				}  
+            if (show) {
+                if ( trans === "none" || !trans ) {
+                    (isShown) ? $o.show( 0 ) : $o.hide( 0 ) ;
+                } else {
+                   $o[ trans ]( speed , ease ); 
+                }
             }
-              
-          
         },
 
         _setXY: function( ) {
         
-            var self = this,
-                x = 0, 
+            var x = 0, 
                 y = 0,
-                posX = self.options.posX,
-                posY = self.options.posY,
-                posXo = parseInt( self.options.posXoffset,10 ),
-                posYo = parseInt( self.options.posYoffset,10 ),
-                $o = self.$obj,
-                $el = self.$elem;
+                posX = this.options.posX,
+                posY = this.options.posY,
+                posXo = parseInt( this.options.posXoffset, 10 ),
+                posYo = parseInt( this.options.posYoffset, 10 ),
+                $o = this.$obj,
+                $el = this.$elem;
 
             switch ( posX ) {   // Set X-axis coordinate
                 case "left" :      // Set to the left side of object
@@ -132,7 +119,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                     x = $el.offset( ).left + $el.width( ) - $o.width( ) - 4;
                     break;
                 default:     // Set to the given number
-                    x = parseInt( posX,10 );
+                    x = parseInt( posX, 10 );
             }
                 
             switch ( posY ) {     // Set Y-axis coordinate
@@ -146,21 +133,22 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
                         y = $el.offset( ).top + $el.height( ) + 11;
                         break;
                     default:     // Set to the given number
-                        y = parseInt( posY,10 );
+                        y = parseInt( posY, 10 );
             } 
 
             // Because these combinations will overlap the ends of the textbox 
             // we will move to right outside of it
             if ( posX === "left" && posY === "center" ) { x -= ( $o.width( ) +13 ); }
-            if ( posX === "right" && posY === "center" ) { x+= ( $o.width( ) +12 ); }
+            if ( posX === "right" && posY === "center" ) { x += ( $o.width( ) +12 ); }
 
-            if ( typeof posXo === "number" )     { x += parseInt( posXo,10 ); }
-            if ( typeof posYo === "number" )     { y += parseInt( posYo,10 ); }
+            if ( typeof posXo === "number" )     { x += parseInt( posXo, 10 ); }
+            if ( typeof posYo === "number" )     { y += parseInt( posYo, 10 ); }
             
             //Set the coordinates
             $o.css( { top: y, left: x } );
 
         },
+        
         _checkChars: function( ) {
             var self = this,
                 $el = self.$elem,
@@ -170,7 +158,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 				count = 0;
                     
             if (  ! typeof max ) {  max = ops.maxLength; } 
-            count = ( cd ) ?  parseInt ( Math.round( max - ( $el.val( ).length ) ) , 10 ) :  parseInt ( Math.round( $el.val( ).length , 10 ),10 ); // countdown ? true : false
+            count = ( cd ) ?  parseInt ( Math.round( max - ( $el.val( ).length ) ) , 10 ) :  parseInt ( Math.round( $el.val( ).length , 10 ), 10 ); // countdown ? true : false
                         
             if ( count > max || count < 0 ) { // Force maxlength for browsers that do not support maxlength
                 $el.val($el.val().substring(0,max));
@@ -181,8 +169,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
         },
         
         _buildString : function( count , max, cd ) {
-            var self = this,
-                ops = self.options,
+            var ops = this.options,
 				txt = ops.textPattern,
 				percent = 0,
 				pass = true;
@@ -250,6 +237,7 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
 			if ( typeof val === "string" ) { val.toLowerCase(); }
 			return ( val === "false" ) ? false : Boolean( val );
 		}
+        
     };  // End Counter object
 
     $.fn.textCounter = function( options ) {
