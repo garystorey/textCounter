@@ -63,7 +63,7 @@ To Do's
 -	Add options as "data-" attributes on the selected items.
 -	Convert to more class based approach instead of ID's.
 -	Use classes or "data-" attributes to hold state. ('.hasTextCounter' , '.showingTextCounter', etc. )
-
+-	Continue to simplify and optimize the code.
 
 Copyright &copy; 2012, Gary Storey ( http://garystorey.com )
 Released under Creative Commons Attribution-ShareAlike 3.0 Unported License.
