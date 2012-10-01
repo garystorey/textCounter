@@ -52,10 +52,18 @@ from "_slideToggle_" to "_none_" for all textCounters and changed the default *z
 
 Miscellaneous
 --------------------------------
--	Tested with jQuery 1.7.1.
+-	Tested with jQuery 1.7.1+.
 -	Compatible with IE 7+, Firefox 11+, Opera 11.61+, and Chrome 17+.
 
 Feel free to <a href="mailto:gary@garystorey.com">email me</a> if you have any questions.
+
+To Do's
+--------------------------------
+-	Convert to "contextual" approach (not everything in DOM ready).  Wait for focus on element before adding functionality.
+-	Add options as "data-" attributes on the selected items.
+-	Convert to more class based approach instead of ID's.
+-	Use classes or "data-" attributes to hold state. ('.hasTextCounter' , '.showingTextCounter', etc. )
+
 
 Copyright &copy; 2012, Gary Storey ( http://garystorey.com )
 Released under Creative Commons Attribution-ShareAlike 3.0 Unported License.
