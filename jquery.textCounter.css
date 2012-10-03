@@ -1,14 +1,13 @@
-
 .textCounter {
 	width : 80px; height : 20px;
 	padding : 3px 5px; margin: 0; 
 	position : absolute; top : 0; left : 0;
 	opacity:.85;
 	text-align : center;
-    border:1px solid;
-    border-bottom-color:#aaa;
-    border-right-color:#aaa;
-    border-left-color:#ddd;
+	border:1px solid;
+	border-bottom-color:#aaa;
+	border-right-color:#aaa;
+	border-left-color:#ddd;
 	border-top:none;
 	background-color: #fefefe;
 	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6+ */
@@ -36,7 +35,7 @@
 .txtWarning { 
 	border:2px solid red;
 	color : #000; background-color: #fdd; 
-    font-weight:bold;
+	font-weight:bold;
 }
 
 .counterProgressBar { 
@@ -50,6 +49,6 @@
 
 }
 .counterTextPattern {
-    width:100%; height:100%; 
-    color : #000; text-align : center;
+	width:100%; height:100%; 
+	color : #000; text-align : center;
 }
