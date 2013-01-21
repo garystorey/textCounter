@@ -55,7 +55,7 @@ Miscellaneous
 -	Tested with jQuery 1.7.1+.
 -	Compatible with IE 7+, Firefox 11+, Opera 11.61+, and Chrome 17+.
 
-Feel free to <a href="mailto:gary@garystorey.com">email me</a> if you have any questions.
+Feel free to <a href="mailto:garystorey@gmail.com">email me</a> if you have any questions.
 
 To Do's
 --------------------------------
@@ -65,6 +65,6 @@ To Do's
 -	Use classes or "data-" attributes to hold state. ('.hasTextCounter' , '.showingTextCounter', etc. )
 -	Continue to simplify and optimize the code.
 
-Copyright &copy; 2012, Gary Storey ( http://garystorey.com )
-Released under Creative Commons Attribution-ShareAlike 3.0 Unported License.
+&copy; 2013, Gary Storey ( http://garystorey.com )
+Released under MIT License.
 
