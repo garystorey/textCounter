@@ -1,0 +1,35 @@
+{
+  "name": "textCounter",
+  "title": "jQuery textCounter",
+  "description": "jQuery plugin that counts the number of characters in input elements.",
+  "keywords": [
+    "counter",
+    "text", 
+  "input"
+  ],
+  "version": "0.1.0",
+  "author": {
+    "name": "Gary Storey",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "Gary Storey",
+      "email": "garystorey@gmail.com",
+      "url": "http://garystorey.com"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "bugs": "https://github.com/garystorey/textcounter/issues",
+  "homepage": "https://github.com/garystorey/textcounter",
+  "docs": "https://github.com/garystorey/textcounter#readme.md",
+  "download": "https://github.com/garystorey/textcounter",
+  "dependencies": {
+    "jquery": ">=1.7"
+  }
+}
