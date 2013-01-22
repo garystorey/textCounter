@@ -1,4 +1,3 @@
-
 //Add a create function for older browsers
 if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) {
     "use strict";    function F( ) { }    F.prototype = obj; return new F( ); };
@@ -249,25 +248,25 @@ if ( typeof Object.create !== "function" ) {    Object.create = function( obj ) 
     };
     
     $.fn.textCounter.options = {
-          countDown				: true ,
+          countDown		: true ,
           counterPatternClass	: "counterTextPattern" ,
           counterWarningClass	: "counterWarning" ,
-          defaultClass			: "textCounter" ,
-          easing				: "swing" ,
-          maxLength				: 500,
-          posX					: "right" ,
-          posY					: "bottom" ,
-          posXoffset			: 0 ,
-          posYoffset			: 0 ,
-          progressBarClass		: "counterProgressBar" ,
-          showBeforeWarn		: true ,
-          showProgressBar		: false , 
-          textPattern			: "[+] / [=]" ,
-          transition			: "slideToggle" ,
-          transitionSpeed		: 200 ,
-          txtWarningClass		: "txtWarning" ,
-          warnAt				: 10 ,
-          zIndex				: 100 
+          defaultClass		: "textCounter" ,
+          easing		: "swing" ,
+          maxLength		: 500,
+          posX			: "right" ,
+          posY			: "bottom" ,
+          posXoffset		: 0 ,
+          posYoffset		: 0 ,
+          progressBarClass	: "counterProgressBar" ,
+          showBeforeWarn	: true ,
+          showProgressBar	: false , 
+          textPattern		: "[+] / [=]" ,
+          transition		: "slideToggle" ,
+          transitionSpeed	: 200 ,
+          txtWarningClass	: "txtWarning" ,
+          warnAt		: 10 ,
+          zIndex		: 100 
     };
 
 })( jQuery, window , document );  // End Plugin
