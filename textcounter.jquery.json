@@ -7,7 +7,7 @@
     "text",
     "input"
   ],
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "Gary Storey",
     "url": "garystorey@gmail.com"
@@ -27,7 +27,7 @@
   ],
   "bugs": "https://github.com/garystorey/textcounter/issues",
   "homepage": "https://github.com/garystorey/textcounter",
-  "docs": "https://github.com/garystorey/textcounter#readme.md",
+  "docs": "https://github.com/garystorey/textcounter#readme",
   "download": "https://github.com/garystorey/textcounter",
   "dependencies": {
     "jquery": ">=1.7"
