@@ -1,5 +1,5 @@
 {
-  "name": "textCounter",
+  "name": "gs.textCounter",
   "title": "jQuery textCounter",
   "description": "jQuery plugin that counts the number of characters in input elements.",
   "keywords": [
