@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<title>The textCounter Plugin Demo</title>
+	<link rel="stylesheet" href="jquery.textCounter.css" type="text/css" />
+	<style>
+	/*  All the styles below are specific to the demo page.  All styles required for the
+	textCounter plugin are included in the jquery.textCounter.css file */
+	
+	body { font-size:16px; line-height:1.5em; font-face: Arial; padding:10px; width:800px; margin: 0 auto 0 50px; padding:25px;}
+	code {padding:10px; }
+	pre { border-width:1px;  border-style:solid; vertical-align:top;
+		border-bottom-color:#aaa;
+		border-right-color:#aaa;
+		border-left-color:#ddd;
+		border-top-color:#ddd;
+		background-color:#f0f0f0;
+	}
+	table { border-right:1px solid #333; border-top:1px solid #333;margin:10px; padding:0;}
+	tr {margin:0;}
+	th { background-color: #dde; color:#000; font-weight:bold; padding:2px 5px; margin:0; text-align:center;  border-bottom:1px solid #333;border-left:1px solid #333;}
+	tr.odd { background-color:#f6f6f6; }
+	td { border-left:1px solid #333; border-bottom:1px solid #333;margin:0; padding:2px 5px; }
+	caption {font-weight:bold;font-size:1.1em; }
+	
+	textarea { width:795px;height:40px; }
+	p {margin-bottom :20px; }
+
+.counter2 {
+	width : 140px; height : 20px;padding : 3px 5px; margin: 0; position : absolute; top : 0; left : 0;  z-index : 99;color : #fff; opacity:.85;background-color:#000;
+	text-align : center;  border-width:1px; border-style:solid; border-bottom-color:#aaa;  border-right-color:#aaa; border-left-color:#ddd;
+	border-top:none;	-moz-border-radius-bottomright: 0.5em;	-moz-border-radius-bottomleft: 0.5em;	-webkit-border-bottom-right-radius: 0.5em;
+	-webkit-border-bottom-left-radius: 0.5em;	-khtml-border-bottom-right-radius: 0.5em;	-khtml-border-bottom-left-radius: 0.5em;
+	border-radius-bottomright: 0.5em;	border-radius-bottomleft: 0.5em;	overflow: hidden;
+}
+
+.fail { border:2px solid red; background-color: #fdd; }
+
+	</style>
+</head>
+<body>
+<h1>Configuring the textCounter </h1>
+<p> The following section will show you the basics of how to configure the textCounter plugin.</p>
+<h2>Options and the Default Values</h2>
+<p> The following is a list of all the options available and their default values:</p>
+<table cellspacing="0" cellpadding="0"><caption>Options and Defaults</caption>
+<thead>
+	<tr><th>Option</th><th>Description</th><th>Default</th></tr>
+</thead>
+<tbody>
+	<tr><td>defaultClass</td><td>The default class used for the text counter. The same class will be used for all textCounter objects unless overridden.</td><td>textCounter</td></tr>
+	<tr><td>transition</td><td>The transition to use when showing the text counter. Possible values include:  <em>none</em>, <em>fadeToggle</em>, <em>slideToggle</em> or any defined jQuery toggle method.</td><td>slideToggle</td></tr>
+	<tr><td>easing</td><td>The easing mode the transition should use.  Possible values include <em>swing</em> and </em>linear</em>.  Additional options are available via jQuery UI.</td><td>swing</td></tr>
+	<tr><td>transitionSpeed</td><td>In milliseconds the amount of time for the transition to last.</td><td>200</td></tr>
+	<tr><td>posX</td><td>The X-axis where the counter should appear.  Possible values include: <em>left</em>, <em>center</em> , <em>right</em>, or any <em>integer</em>.</td><td>right</td></tr>
+	<tr><td>posY</td><td>The Y-axis where the counter should appear. Possible values include: <em>top</em>, <em>center</em> , <em>bottom</em>, or any <em>integer</em></td><td>bottom</td></tr>
+	<tr><td>posXoffset</td><td>The number of pixels on the X-axis to move the counter from it's default position of <strong>posX</strong>.</td><td>0</td></tr>
+	<tr><td>posYoffset</td><td>The number of pixels on the Y-axis to move the counter from it's default position of <strong>posY</strong>.</td><td>0</td></tr>
+	<tr><td>warnAt</td><td>The number of characters, or percentage remaining, when the <strong>warningClass</strong> will be applied.</td><td>10</td></tr>
+	<tr><td>warningClass</td><td>The class to apply to the text counter when the <strong>warnAt</strong> value has been met or passed.</td><td>warningCounter</td></tr>
+	<tr><td>showBeforeWarn</td><td>Should the text counter be shown before reaching the <strong>warnAt</strong> value. Possible values include: <em>true</em> and <em>false</em>.</td><td>true</td></tr>
+	<tr><td>textPattern</td><td>The text to be displayed in the counter.  The following constants will be replaced:  <ul><li><em>[+]</em> - The number of characters remaining</li><li><em>[=]</em> - The maximum number of characters based on the maxlength attribute</li><li><em>[%]</em> - The percentage of characters remaining</li></ul></td><td>[+] / [=]</td></tr>
+	<tr><td>maxLength</td><td>The default <strong>maxlength</strong> value to apply to any field that does not have the attribute set.  Enforces this value on Opera and Internet Explorer versions that do not support the <strong>maxlength</strong> attribute.</td><td>500</td></tr>
+	<tr><td>countDown</td><td>Should the text counter count down from maximum value (<em>true</em>) or up to it (<em>false</em>).</td><td>true</td></tr>
+	<tr><td>onWarn</td><td>An optional function to call when the textCounter has fallen below the <strong>warnAt</strong> threshold.</td><td>null</td></tr>
+	<tr><td>onPass</td><td>An optional function to call when the textCounter moves above the <strong>warnAt</strong> threshold.</td><td>null</td></tr>
+</tbody>
+</table>
+<br>
+
+<h2>Globally Overriding the Defaults</h2>
+<p>
+If you want to override a default option <strong>globally</strong> for the textCounter object(s), you can 
+make a call to the textCounter options object.  The below will change the default transition
+from "<em>slideToggle</em>" to "<em>none</em>" for all textCounters.  <strong>Note</strong>: This is not being applied 
+for this demo page.
+</p>
+<pre><code>$.fn.textCounter.options.transition = "none";</code></pre>
+
+
+<h2>Using the Defaults</h2>
+
+<p>
+	The following textarea uses all the default settings for the textCounter object.
+</p>
+<pre><code>$("#test1").textCounter();</code></pre>
+</p>
+<p>
+<textarea id="test1" maxlength="20" placeholder="Using all the default options"></textarea>
+</p>
+
+
+<h2>Moving the textCounter</h2>
+
+<p>
+In this example we have moved the textcounter object to top left.
+</p>
+<pre><code>$("#test1").textCounter( { posX : "left" , posY : "top" } );</code></pre>
+<br/><!--give a little space for showing the counter without overlapping text  -->
+<p>
+<textarea id="test2" maxlength="20" placeholder="The textCounter will be in the upper left hand corner of this textarea"></textarea>
+</p>
+
+<p>For more finite control, there are the <strong>posXoffset</strong> and <strong>posYoffset</strong> options. These options allow you to adjust the placement
+of the textCounter object similar to relative positioning in CSS.  In the example below, the textCounter has been moved an additional 25 pixels to the left and five pixels down
+from it's default position (bottom right).
+</p>
+<pre><code>$("#test3").textCounter( { posXoffset : -25 , posYoffset : 5 } );</code></pre>
+<p>
+<textarea id="test3" maxlength="20" placeholder="This textCounter is moved away from the default position based on the offset values."></textarea>
+</p>
+
+<p>Another option is to set the <strong>posX</strong> and <strong>posY</strong> options to the exact coordinates of where you want to show the textCounter.  These coordinates
+are based off of the top left hand corner of the page.
+</p>
+<pre><code>$("#test4").textCounter( { posX:250 , posY:2050 } );</code></pre>
+<p>
+<textarea id="test4" maxlength="20" placeholder="The textCounter has been moved 250px from the left hand side of the screen and 1850px from the top of the page."></textarea>
+</p>
+
+
+<h2>Modifying the textPattern option</h2>
+
+<p>In this example, the <strong>textPattern</strong> option has been changed to show just the percentage.  Because of this, the <strong>warnAt</strong>
+value now represents the percentage remaining before the <strong>warningClass</strong> is applied. Also, since <strong>countDown</strong> is still <em>true</em> the textCounter
+will count down from 100%.
+</p>
+<pre><code>$("#test5").textCounter( { textPattern : "[%]%" } );</code></pre>
+<p>
+<textarea id="test5" maxlength="20" placeholder="The textPattern option has been changed to show percentages."></textarea>
+</p>
+
+<p>In this example, the <strong>countDown</strong> option has been changed to <em>false</em> and the percentage will count up to 100%.
+</p>
+<pre><code>$("#test6").textCounter( { textPattern : "[%]%" , countDown : false } );</code></pre>
+<p>
+<textarea id="test6" maxlength="20" placeholder="The textPattern option has been changed to show percentages and the countDown option is set to false so the percentages will count up instead of down."></textarea>
+</p>
+
+<p>Here we will show the count ( [+] ), the total ( [=] ), and the percentage( [%] ).
+</p>
+<pre><code>$("#test7").textCounter({ textPattern:"[+]/[=] [%]%" , countDown:false });</code></pre>
+<p>
+<textarea id="test7" maxlength="20" placeholder="The textPattern option has been changed to show the count, total and percentage."></textarea>
+</p>
+
+
+<h2>Changing the Transition</h2>
+
+<p>On the textarea below, we have modified the <strong>transition</strong> option to be <em>none</em>.
+</p>
+<pre><code>$("#test8").textCounter( { transition : "none" } );</code></pre>
+<p>
+<textarea id="test8" maxlength="20" placeholder="The transition and transitionSpeed options have been changed."></textarea>
+</p>
+
+<p>Another simple example, changes the <strong>transition</strong> option to be <em>fadeToggle</em>, the <strong>easing</strong> to <em>linear</em> and the <strong>transitionSpeed</strong> to <em>500</em> milliseconds.
+</p>
+<pre><code>$("#test9").textCounter( { transition : "fadeToggle" , 
+	easing : "linear", 
+	transitionSpeed : 500 
+} );</code></pre>
+<p>
+<textarea id="test9" maxlength="20" placeholder="The transition and easing options have been changed."></textarea>
+</p>
+
+<p>On the textarea below, we have modified the <strong>showBeforeWarn</strong> option to be <em>false</em>.  This will cause the textCounter to only appear after the <strong>warnAt</strong> value has been passed.
+
+</p>
+<pre><code>$("#test10").textCounter( { showBeforeWarn : false } );</code></pre>
+<p>
+<textarea id="test10" maxlength="20" placeholder="The counter wont be displayed until it reaches the warnAt value."></textarea>
+</p>
+
+
+
+<h2>Multiple textCounter objects</h2>
+
+<p>On the textarea below, we have used a different <strong>defaultID</strong> and a different <strong>textPattern</strong>.  Since this
+particular textCounter has it's unique ID and classes, it can look entirely different without interfering with the default textCounter options.
+</p>
+<pre><code>$("#test11").textCounter( { 	defaultClass : "counter2" ,
+				textPattern : "[+] of [=] characters"
+});
+</code></pre>
+<p>
+<textarea id="test11" maxlength="20" placeholder="The defaultClass and textPattern options have all been changed."></textarea>
+</p>
+
+
+<h2>Using the onWarn and onPass Functions</h2>
+<p>
+These two functions are called each time the <strong>warnAt</strong> threshold is passed. The <strong>onWarn</strong> function will be called each time the counter goes below
+the threshold and the <strong>onPass</strong> function will be called when the counter goes above the threshold.
+</p>
+<p>
+In the <strong>onWarn</strong> or <strong>onPass</strong> function, <em>this</em> will refer to the current selected object. 
+It <em>does not</em> refer to the textCounter object.
+</p>
+<pre><code>$("#test12").textCounter( { 
+	onWarn : function( ) { 
+		$this=$(this);
+		$this.addClass("fail");
+	},
+	onPass : function( ) { 
+		$this=$(this);
+		$this.removeClass("fail");
+	}
+});
+</code></pre>
+<p>
+<textarea id="test12" maxlength="20" placeholder="The onWarn and onPass functions will add and remove a class from the textarea itself."></textarea>
+</p>
+
+<br><br>
+
+
+<h2>Additional Information</h2>
+
+<ul>
+<li>
+This plugin relies on the <strong>maxlength</strong> attribute being set to determine the
+maximum number of characters.  If the attribute is missing, the plugin will use the <strong>maxLength</strong> property of 
+the plugin as a default.  It will also use this to enforce the maximum value for those browsers ( <em>some IE, and Opera</em> ) that
+do not support the <strong>maxlength</strong> property.
+</li>
+<li>
+If <em>[%]</em> is used in the <strong>textPattern</strong> then it will be used to determine when
+the <strong>warningClass</strong> will be applied. Use the <strong>warnAt</strong> option to show what percentage
+remaining to set the class. For example, if <strong>warnAt</strong> is set to 10 then the 
+<strong>warningClass</strong> will be applied when there is 10% remaining.
+</li>
+<li>
+The <strong>transitionSpeed</strong> option is ignored if the <strong>transition</strong> option is set to <em>none</em>.
+</li>
+<li>
+A fairly high z-index value should be set by the user in the <strong>defaultID</strong>
+used by the plugin so that the counter will appear above other content.
+</li>
+</ul>
+
+<h2>Download  the textCounter Plugin</h2>
+<p>You can download the plugin from the <a href="https://github.com/garystorey/textCounter">GitHub Repository</a>.</p>
+
+<h2>Miscellaneous</h2>
+<ul>
+<li>
+Tested with jQuery 1.4.2 and 1.7.1 but should work for most versions without
+modification.
+</li>
+<li>
+Currently tested in Internet Explorer 8 , Firefox 11, Opera 11.61 and Chrome 17.
+</li>
+</ul>
+<p>Feel free to <a href="mailto:gary@garystorey.com">email me</a> if you have any questions.</p>
+<p>Copyright &copy; 2012, Gary Storey ( http://garystorey.com )</p>
+<p>Released under Creative Commons Attribution-ShareAlike 3.0 Unported License.</p>
+<br><br>
+<p></p>
+
+<script src="jquery.min.js"></script>
+<script src="jquery.textCounter.js"></script>
+<script>
+	$( function ( ){
+	
+	//This line simply zebra stipes the table used on the demo page 
+	$("tr:odd").addClass("odd");
+
+	//The textCounter objects
+	$("#test1").textCounter( );
+	$("#test2").textCounter( { posX:"left", posY:"top" } );
+	$("#test3").textCounter( { posXoffset: -25, posYoffset: 5 } );
+	$("#test4").textCounter( { posX:250 , posY:2050 } );
+	$("#test5").textCounter( { textPattern : "[%]%" } );
+	$("#test6").textCounter( { textPattern : "[%]%" , countDown : false } );
+	$("#test7").textCounter( { textPattern : "[+]/[=] [%]%" , countDown : false } );
+	$("#test8").textCounter( { transition : "none" } );
+	$("#test9").textCounter( { transition : "fadeToggle" , easing : "linear", transitionSpeed : 500 } );
+	$("#test10").textCounter( { showBeforeWarn : false } );
+	$("#test11").textCounter( { defaultClass : "counter2" , textPattern : "[+] of [=] characters" } );
+	$("#test12").textCounter( { 
+		onWarn : function( ) { 
+			$this = $( this );
+			$this.addClass( "fail" );
+		} ,
+		onPass : function( ) { 
+			$this = $( this );
+			$this.removeClass( "fail" );
+		}
+	});
+	
+});
+
+</script>
+
+</body>
+</html>
